@@ -1,0 +1,5 @@
+# cmkr output.
+CMakeLists.txt
+# cmake output.
+build32
+build64

@@ -1,0 +1,36 @@
+[cmake]
+version = "3.24"
+cmkr-include = "CMake/cmkr.cmake"
+
+[project]
+name = "VTHook"
+version = "1.0.0"
+include-before = [
+	"CMake/msvc-static-runtime.cmake",
+	"CMake/msvc-configurations.cmake",
+]
+include-after = [
+	"CMake/flatten-build-hierarchy.cmake",
+	"CMake/custom.cmake",
+]
+
+[conditions]
+x86 = "CMAKE_SIZEOF_VOID_P EQUAL 4"
+x64 = "CMAKE_SIZEOF_VOID_P EQUAL 8"
+
+[target.MinHook]
+type = "static"
+compile-features = ["cxx_std_20"]
+compile-options = ["/utf-8"]
+sources = ["MinHook/**.c", "MinHook/**.h"]
+include-directories = ["MinHook"]
+
+[target.Test]
+type = "executable"
+compile-features = ["cxx_std_20"]
+compile-options = ["/utf-8"]
+sources = [
+  "Test/**.c", "Test/**.cpp",
+  "Test/**.hpp", "Test/**.h",
+	"common/**.c", "common/**.cpp", "common/**.hpp", "common/**.h"]
+link-libraries = ["MinHook"]
